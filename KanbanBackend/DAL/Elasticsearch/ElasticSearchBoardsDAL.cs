@@ -6,13 +6,11 @@ public class ElasticSearchBoardsDAL : IBoardsDAL
 {
     private const string BoardsIndex = "boards";
 
-    private readonly string _connectionString;
     private readonly IElasticClient _elasticClient;
 
     public ElasticSearchBoardsDAL(string connectionString)
     {
-        _connectionString = connectionString;
-        ConnectionSettings connectionSettings = new ConnectionSettings(new Uri(_connectionString));
+        ConnectionSettings connectionSettings = new ConnectionSettings(new Uri(connectionString));
         _elasticClient = new ElasticClient(connectionSettings);
     }
 
