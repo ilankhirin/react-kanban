@@ -17,3 +17,7 @@ export const deleteBoard = (boardId) => {
     credentials: "include"
   });
 }
+
+export const getAllBoards = () => {
+  return fetch(`${config.backendUrl}/board`).then(x => x.json());
+}

@@ -1,5 +1,7 @@
 const cardsById = (state = {}, action) => {
   switch (action.type) {
+    case "SET_STATE_FROM_SERVER":
+      return action.payload.cardsById || {};
     case "ADD_CARD": {
       const { cardText, cardId } = action.payload;
       return { ...state, [cardId]: { text: cardText, _id: cardId } };

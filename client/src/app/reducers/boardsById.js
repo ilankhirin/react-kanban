@@ -1,5 +1,7 @@
 const boardsById = (state = {}, action) => {
   switch (action.type) {
+    case "SET_STATE_FROM_SERVER":
+      return action.payload.boardsById || {};
     case "ADD_LIST": {
       const { boardId, listId } = action.payload;
       return {
@@ -31,14 +33,13 @@ const boardsById = (state = {}, action) => {
       };
     }
     case "ADD_BOARD": {
-      const { boardTitle, boardId, userId } = action.payload;
+      const { boardTitle, boardId } = action.payload;
       return {
         ...state,
         [boardId]: {
           _id: boardId,
           title: boardTitle,
           lists: [],
-          users: [userId],
           color: "blue"
         }
       };

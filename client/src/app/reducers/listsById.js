@@ -1,5 +1,7 @@
 const listsById = (state = {}, action) => {
   switch (action.type) {
+    case "SET_STATE_FROM_SERVER":
+      return action.payload.listsById || {};
     case "ADD_CARD": {
       const { listId, cardId } = action.payload;
       return {
