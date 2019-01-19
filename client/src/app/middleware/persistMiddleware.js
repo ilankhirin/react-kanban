@@ -7,7 +7,7 @@ import dataScheme from './../api/dataScheme'
 // Persist the board to the database after almost every action.
 const persistMiddleware = (updateBoard, deleteBoard) => store => next => action => {
   next(action);
-  if(action.type === "SET_STATE_FROM_SERVER") {
+  if (action.type === "SET_STATE_FROM_SERVER") {
     return;
   }
 
@@ -19,7 +19,15 @@ const persistMiddleware = (updateBoard, deleteBoard) => store => next => action 
   } = store.getState();
 
   if (action.type === "DELETE_BOARD") {
-    deleteBoard(boardId);
+    next({
+      type: "SYNCING"
+    })
+    deleteBoard(boardId).then(x => next({
+      type: "SYNCED"
+    })).catch(x => next({
+      type: "ERROR_SYNCING",
+      payload: x
+    }));
 
     // All action-types that are not DELETE_BOARD or PUT_BOARD_ID_IN_REDUX are currently modifying a board in a way that should
     // be persisted to db. If other types of actions are added, this logic will get unwieldy.
@@ -33,8 +41,15 @@ const persistMiddleware = (updateBoard, deleteBoard) => store => next => action 
 
     const boardData = denormalize(boardId, dataScheme, entities);
 
-    // TODO: Provide warning message to user when put request doesn't work for whatever reason
-    updateBoard(boardData);
+    next({
+      type: "SYNCING"
+    })
+    updateBoard(boardData).then(x => next({
+      type: "SYNCED"
+    })).catch(x => next({
+      type: "ERROR_SYNCING",
+      payload: x
+    }));;
   }
 };
 
