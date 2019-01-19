@@ -12,16 +12,30 @@ namespace KanbanBackend.Controllers
     [EnableCors("AllowSpecificOrigins")]
     public class BoardController : ControllerBase
     {
-        [HttpPut]
-        public void Put([FromBody] Board value)
+        private readonly IBoardsDAL _boardsDAL;
+
+        public BoardController(KanbanDbContext dbContext)
         {
-            System.Console.WriteLine(value);
+            _boardsDAL = new EntityFrameworkBoardsDAL(dbContext);
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Board>> Get()
+        {
+            List<Board> boards = _boardsDAL.GetAll().ToList();
+            return new ActionResult<IEnumerable<Board>>(boards);
+        }
+
+        [HttpPut]
+        public void Put([FromBody] Board board)
+        {
+            _boardsDAL.UpdateBoard(board);
         }
 
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            System.Console.WriteLine(id);
+            _boardsDAL.DeleteBoard(id);
         }
     }
 }

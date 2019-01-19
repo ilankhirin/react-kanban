@@ -1,16 +1,15 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 public class Board
 {
     [JsonProperty("_id")]
-    public string Id { get; set; }
+    public string BoardId { get; set; }
 
     public string Title { get; set; }
 
     public string Color { get; set; }
 
-    public List<KanbanList> Lists { get; set; }
-
-    public List<string> Users { get; set; }
+    public IEnumerable<KanbanList> Lists { get; set; }
 }

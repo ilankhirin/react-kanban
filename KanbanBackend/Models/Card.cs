@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 public class Card
 {
     [JsonProperty("_id")]
-    public string Id { get; set; }
+    public string CardId { get; set; }
 
     public string Text { get; set; }
 

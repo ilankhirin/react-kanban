@@ -3,13 +3,8 @@ import {
   schema
 } from "normalizr";
 
-import {
-  updateBoard,
-  deleteBoard
-} from './../api/boardApi'
-
 // Persist the board to the database after almost every action.
-const persistMiddleware = store => next => action => {
+const persistMiddleware = (updateBoard, deleteBoard) => store => next => action => {
   next(action);
   const {
     boardsById,
@@ -55,4 +50,4 @@ const persistMiddleware = store => next => action => {
   }
 };
 
-export default persistMiddleware;
+export default (updateBoard, deleteBoard) => persistMiddleware(updateBoard, deleteBoard);

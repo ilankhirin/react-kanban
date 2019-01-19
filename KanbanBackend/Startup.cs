@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,18 +26,20 @@ namespace KanbanBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
-                    builder
-                    .WithOrigins("http://localhost:1337")
-                    .AllowCredentials()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    string[] origins = Configuration.GetSection("Origins").Get<IEnumerable<string>>().ToArray();
+                    builder.WithOrigins(origins)
+                            .AllowCredentials()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                 });
             });
+            services.AddDbContext<KanbanDbContext>(options => options.UseMySql(Configuration.GetConnectionString("BoardsDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
