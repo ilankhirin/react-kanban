@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-interface IBoardsDAL
+public interface IBoardsDAL
 {
     IEnumerable<Board> GetAll();
     void UpdateBoard(Board board);

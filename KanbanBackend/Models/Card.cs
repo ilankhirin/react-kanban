@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class Card
 {
     [JsonProperty("_id")]
-    public string CardId { get; set; }
+    public string Id { get; set; }
 
     public string Text { get; set; }
 

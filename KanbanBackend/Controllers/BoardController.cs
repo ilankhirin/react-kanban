@@ -14,9 +14,9 @@ namespace KanbanBackend.Controllers
     {
         private readonly IBoardsDAL _boardsDAL;
 
-        public BoardController(KanbanDbContext dbContext)
+        public BoardController(IBoardsDAL boardsDAL)
         {
-            _boardsDAL = new EntityFrameworkBoardsDAL(dbContext);
+            _boardsDAL = boardsDAL;
         }
 
         [HttpGet]
